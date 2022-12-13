@@ -1,0 +1,59 @@
+----------------------------------------------------------------------------------
+-- Dil koduna göre haber listesini verir.
+CREATE PROCEDURE GetNewsList
+@LanguageCode varchar(8)
+AS
+BEGIN
+	IF @LanguageCode = 'tr'
+    BEGIN
+        SELECT Name,Title,Detail,ImageUrls,Category FROM NewsTR;
+    END
+	IF @LanguageCode = 'en'
+	BEGIN
+      SELECT Name,Title,Detail,ImageUrls,Category FROM NewsEN;
+	END
+END;
+
+exec GetNewsList 'tr';
+exec GetNewsList 'en';
+----------------------------------------------------------------------------------
+
+-- Dil kodu ve haber adına göre haber detayını verir.
+CREATE PROCEDURE GetNew
+@LanguageCode varchar(8),
+@Name nvarchar(MAX)
+AS
+BEGIN
+	IF @LanguageCode = 'tr'
+    BEGIN
+        SELECT Name,Title,Detail,ImageUrls,Category FROM NewsTR WHERE Name = @Name;
+    END
+	IF @LanguageCode = 'en'
+	BEGIN
+      SELECT Name,Title,Detail,ImageUrls,Category FROM NewsEN WHERE Name = @Name;
+	END
+END;
+
+exec GetNew 'tr','News1';
+exec GetNew 'tr','News2';
+----------------------------------------------------------------------------------
+
+-- Dil koduna göre kontrolün alias'ını verir.
+CREATE PROCEDURE GetControlAlias
+@LanguageCode varchar(8),
+@ControlName nvarchar(MAX)
+AS
+BEGIN
+	IF @LanguageCode = 'tr'
+    BEGIN
+        SELECT AliasTR FROM Controls WHERE ControlName = @ControlName;
+    END
+	IF @LanguageCode = 'en'
+	BEGIN
+       SELECT AliasEN FROM Controls WHERE ControlName = @ControlName;
+	END
+END;
+
+EXEC GetControlAlias 'tr','btnLogin';
+EXEC GetControlAlias 'en','btnLogin';
+----------------------------------------------------------------------------------
